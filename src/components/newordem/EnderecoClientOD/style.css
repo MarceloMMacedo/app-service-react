@@ -1,0 +1,16 @@
+.overf {
+    overflow-x: scroll;
+}
+
+.btn1 {
+    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 80%;
+}
+
+table {
+    font-size: 80%;
+    padding: 0;
+}
