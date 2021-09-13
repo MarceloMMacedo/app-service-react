@@ -7,15 +7,14 @@ import { useForm } from 'react-hook-form';
 import { newOrdem, Ordem } from '../../../types/ordem/ordem';
 import { SampleDto } from '../../../types/sampledto';
 import { formatDate } from '../../../util/formatters';
-import { requestBackend } from '../../../util/requests';
-import Navbar from '../../Navbar';
+import { requestBackend } from '../../../util/requests'; 
 import ContatoClienteOrdem from '../ContatoClienteOrdem';
-import EquipamentoOrdem from '../EquipamentoOrdem';
-import locale from "antd/es/locale/pt_BR";
+import EquipamentoOrdem from '../EquipamentoOrdem'; 
 
 import PassoOneCliente from '../PassoOneCliente';
 import ResumoFinalOrdem from '../ResumoFinalOrdem';
-import "./style.css"
+import "./style.css" 
+import { useHistory } from 'react-router';
 
 const { RangePicker } = DatePicker;
 const NewOrdemServico = () => {
@@ -35,14 +34,13 @@ const NewOrdemServico = () => {
   const [ordem, setordem] = useState<Ordem>(newOrdem(data));
   const [next1, setnext1] = useState(false);
   const [next2, setnext2] = useState(false);
-  const [next3, setnext3] = useState(false);
-  const [next4, setnext4] = useState(false);
+  const [next3, setnext3] = useState(false); 
 
 
   const {
     register, handleSubmit, formState: { errors, isSubmitting, isDirty, isValid }, setValue, getValues, } = useForm();
 
-
+    const history = useHistory();
 
 
 
@@ -147,7 +145,7 @@ const NewOrdemServico = () => {
         <ResumoFinalOrdem controller='ordemservicos' tecnicos={tecnicos} ordem={ordem} />
         <Divider />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
+          <div className="row p-3">
             <div className="col-lg-3">
               <div className="form-group">
                 <label className="form-label  ">Técnico</label>
@@ -218,7 +216,15 @@ const NewOrdemServico = () => {
         size="small"
         onClick={() => {
           console.log(ordem);
-
+          let params: AxiosRequestConfig = {
+            method: "PUT",
+            url: `ordemservicos/newobj`,
+            data:ordem
+          };
+          requestBackend(params).then((rest) => {
+            message.success('Ordem de Serviço criado com sucesso');
+            history.push(`/ordemservico/${""+rest.data}`)
+          })
           /*let params: AxiosRequestConfig = {
             method: "POST",
             url: `${controller}/addequipamentocliente/${id}`,
@@ -249,9 +255,7 @@ const NewOrdemServico = () => {
 
   };
   return (
-    <>
-      <Navbar />
-
+    <> 
       <div className="  container mt-3  ">
         <div className="card">
           <Steps current={current} className="mt-2 p-2">

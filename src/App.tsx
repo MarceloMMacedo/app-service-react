@@ -1,5 +1,5 @@
 
-import './App.css';  
+import './App.css';   
 import './assets/styles/theme.css';
 import "antd/dist/antd.css"; 
 import PassoOneCliente from './components/newordem/PassoOneCliente';
@@ -7,7 +7,10 @@ import axios from 'axios';
 import { BASE_URL } from './util/requests';
 import { saveAuthData } from './util/storage';
 import Main from './pages/Main';
-import NewOrdemServico from './components/newordem/NewOrdemServico';
+import NewOrdemServico from './components/newordem/NewOrdemServico'; 
+import GeralOrdem from './components/MainOrdem/GeralOrdem';
+import MainOrdem from './components/MainOrdem';
+import Routers from './Routers';
 type reder={
   Authorization:string;
 }
@@ -27,7 +30,8 @@ function App() {
     }
   ) 
   return (
-    <NewOrdemServico />
+    <Routers />
+//   <MainOrdem />// <NewOrdemServico />
   //  <Main/>
   //  <PassoOneCliente controller='ordemservicos'/>
   );

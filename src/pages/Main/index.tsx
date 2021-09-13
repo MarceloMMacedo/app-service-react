@@ -1,26 +1,93 @@
-import { Columns } from "../../types/columns";
+
 import { ColOsOpen, MockOpenOs } from "./../../types/main";
-import { formatDate } from "./../../util/formatters";
-import Pagination from "../../components/Pagination";
+
 import Navbar from "../../components/Navbar";
 import { useState } from "react";
 import { useCallback } from "react";
-import { debounce, throttle } from "lodash";
+import { debounce } from "lodash";
 import { useEffect } from "react";
 import "@fortawesome/fontawesome-free/css/all.css";
 
-import { ButtonGroup, Dropdown, Button, Table } from "react-bootstrap";
-import { Radio } from "antd";
+import { ButtonGroup, Dropdown, Button, } from "react-bootstrap";
+import { AxiosRequestConfig } from "axios";
+import { requestBackend } from "../../util/requests";
+import { formatDate } from "../../util/formatters";
+import DataTable from "react-data-table-component";
+import { Ordem } from "../../types/ordem/ordem";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
+import NewOrdemServico from "../../components/newordem/NewOrdemServico";
 const Main = () => {
-  const page = 0;
-  const data = MockOpenOs;
-  const columns: Columns[] = ColOsOpen;
 
   const [userQuery, setUserQuery] = useState("");
+  const [ordens, setordens] = useState<Ordem[]>()
+  const [orden, setorden] = useState<Ordem>()
+
+  const selectOrder = useCallback(
+    row => async () => {
+      console.log(row.id, row.origem, row);
+      history.push(`/ordemservico/${""+row.id}`)
+    }, []
+  );
+  //cell?: undefined;
+  const columns = [
+    {
+      name: 'Cliente',
+      selector: 'cliente.nome',
+      sortable: true
+      //  render: (text) => <a>{text}</a>,
+    },
+    {
+      name: 'Abertura',
+      selector: 'dataAbertura',
+      sortable: true
+    },
+    {
+      name: 'Programação',
+      selector: 'dataProgramada',
+      sortable: true
+    }, {
+      name: 'Técnico',
+      selector: 'tecnico.nome',
+      sortable: true
+    },
+    {
+      name: 'Origem',
+      selector: 'origem',
+      sortable: true
+    },
+    {
+      name: "editar",
+      button: true,
+      cell: row => (<button className="btn btn-sm btn-link" onClick={selectOrder(row)}  >
+        <i className="fas fa-pencil-alt"></i>
+      </button>),
+    }
+  ];
 
   const updateQuery = () => {
-    // A search query api call.
     console.log(userQuery);
+
+    let params: AxiosRequestConfig = {
+      method: "GET",
+      url: `/mainorder/all?nome=${userQuery}`,
+    };
+    requestBackend(params).then((rest) => {
+      var dados = rest.data;
+
+      console.log(dados);
+      dados.forEach(el => {
+var data1=new Date(el.dataAbertura);
+var data2=new Date(el.dataProgramada);
+        el.dataAbertura = formatDate(data1);
+        el.dataProgramada = formatDate(data2);
+      });
+     
+      console.log(dados);
+
+      setordens(dados);
+    })
+
   };
 
   const delayedQuery = useCallback(debounce(updateQuery, 700), [userQuery]);
@@ -31,7 +98,7 @@ const Main = () => {
 
   useEffect(() => {
     delayedQuery();
-    // Cancel the debounce on useEffect cleanup.
+
     return delayedQuery.cancel;
   }, [userQuery, delayedQuery]);
 
@@ -39,19 +106,21 @@ const Main = () => {
     console.log(pageNumber);
 
     const editar = (tipo: string, id: number) => {
+      history.push(`/ordemservico/${id}`)
       console.log(tipo + id);
     };
     /*const params: AxiosRequestConfig = {
-      method: 'GET',
-      url: '/products',
-      params: {
-        page: pageNumber,
-        size: 12,
+            method: 'GET',
+          url: '/products',
+          params: {
+            page: pageNumber,
+          size: 12,
       },*/
   };
+  const history = useHistory();
   return (
     <>
-      <Navbar /> 
+
       <div className="  container mt-3 card">
         <div className="card-header">
           <div className="row">
@@ -66,7 +135,7 @@ const Main = () => {
               <div >
                 <Dropdown as={ButtonGroup}>
                   <Button className="btn btn-falcon-default btn-sm">
-                    Nova  
+                    Nova
                   </Button>
 
                   <Dropdown.Toggle
@@ -77,16 +146,17 @@ const Main = () => {
 
                   <Dropdown.Menu>
                     <Dropdown.Item href="#/action-1">
-                      <button className="btn  btn-sm btn-link" type="button">
+
+                      <a className="btn  btn-sm btn-link" href='/newordemservico' >
                         <span className="fas fa-plus p-2"></span>
                         Novo Serviço
-                      </button>
+                      </a>
                     </Dropdown.Item>
                     <Dropdown.Item href="#/action-2">
-                      <button className="btn  btn-sm btn-link" type="button">
+                      <a className="btn  btn-sm btn-link" href='/newordemservico' >
                         <span className="fas fa-plus p-2"></span>
                         Nova Venda
-                      </button>
+                      </a>
                     </Dropdown.Item>
                     <Dropdown.Item href="#/action-3">
                       <button className="btn  btn-sm btn-link" type="button">
@@ -111,50 +181,14 @@ const Main = () => {
         </div>
         <div className="card-body px-0 py-0">
           <div className="table-responsive scrollbar">
-            <Table
-              responsive
-              className="table table-sm fs--1 mb-0 overflow-hidden"
-            >
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>#</th>
-                  {columns.map((value, index) => (
-                    <th>{value.name}</th>
-                  ))}
-                  <th>Editar</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((value, index) => (
-                  <tr key={index}>
-                  <td><Radio></Radio> </td>
-                    <td>{index}</td>
-                    <td>{value.cliente?.nome}</td>
-                    <td>
-                      {" "}
-                      {value.dataabertura && formatDate(value.dataabertura)}
-                    </td>
-                    <td> {value.datafim && formatDate(value.datafim)}</td>
-                    <td> {value.tipo}</td>
-                    <td> {value.status}</td>
-                    <td>
-                      {" "}
-                      <button className="btn btn-sm btn-link">
-                        <i className="fas fa-pencil-alt"></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            <div className="row">
-              <Pagination pageCount={8} range={1} onChange={getPage} />
-            </div>
+            <DataTable title="Ordem de Serviços Abertas" columns={columns} data={ordens ? ordens : []} pagination />
           </div>
         </div>
       </div>
     </>
   );
+  /*
+ 
+          */
 };
 export default Main;

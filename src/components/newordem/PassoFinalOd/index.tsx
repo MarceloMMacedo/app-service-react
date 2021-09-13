@@ -31,18 +31,7 @@ function PassoFinalOd({ controller, tecnicos, ordem }: PassoFinalOdProps) {
         type="primary"
         size="small"
         onClick={() => {
-          /*let params: AxiosRequestConfig = {
-            method: "POST",
-            url: `${controller}/addequipamentocliente/${id}`,
-            data: data,
-          };
-          console.log(params);
-          
-          requestBackend(params).then((rest) => {
-            initial();
-
-          })
-          setvisible(false);*/
+ 
           notification.close(key);
         }}
       >
@@ -63,7 +52,7 @@ function PassoFinalOd({ controller, tecnicos, ordem }: PassoFinalOdProps) {
 
   return (
     <>       
-          <div className="row">
+          <div className="row p-2">
             <div className="col-lg-3">
               <div className="form-group">
                 <label className="form-label  ">Técnico</label>
@@ -84,7 +73,7 @@ function PassoFinalOd({ controller, tecnicos, ordem }: PassoFinalOdProps) {
               <div className="form-group">
                 <label className="form-label  ">Canal</label>
                 <select  {...register("canal", { required: true })}
-                  className="form-control form-control-sm col-lg-12"                >
+                  className="form-control form-control-sm col-lg-12" >
                   <option value=""></option>
                   <option value="TELEFONE">TELEFONE</option>
                   <option value="ONSITE">ONSITE</option>

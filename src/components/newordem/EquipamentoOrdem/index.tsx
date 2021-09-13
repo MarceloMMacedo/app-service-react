@@ -11,10 +11,8 @@ import { Select } from 'antd';
 
 
 import SortIcon from "@material-ui/icons/ArrowDownward";
-import Modal from 'antd/lib/modal/Modal';
-import { Modelo } from '../../../types/modelo';
-import { SampleDto } from '../../../types/sampledto';
-import NumberFormat from 'react-number-format';
+import Modal from 'antd/lib/modal/Modal'; 
+import { SampleDto } from '../../../types/sampledto'; 
 
 const columns = [
   
