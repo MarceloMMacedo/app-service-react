@@ -1,7 +1,4 @@
 
-import { ColOsOpen, MockOpenOs } from "./../../types/main";
-
-import Navbar from "../../components/Navbar";
 import { useState } from "react";
 import { useCallback } from "react";
 import { debounce } from "lodash";
@@ -15,8 +12,10 @@ import { formatDate } from "../../util/formatters";
 import DataTable from "react-data-table-component";
 import { Ordem } from "../../types/ordem/ordem";
 import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
-import NewOrdemServico from "../../components/newordem/NewOrdemServico";
+import {Link} from 'react-router-dom'
+ import NewOrdemServico from "../../components/newordem/NewOrdemServico";
+import { number } from "yup/lib/locale";
+import OrdemServico from "../OrdemServico";
 const Main = () => {
 
   const [userQuery, setUserQuery] = useState("");
@@ -26,7 +25,15 @@ const Main = () => {
   const selectOrder = useCallback(
     row => async () => {
       console.log(row.id, row.origem, row);
-      history.push(`/ordemservico/${""+row.id}`)
+     // history.push(`/ordemservico/${"" + row.id}`);
+      let ordemto=`/ordemservico/${"" + row.id}`;
+      return <Link to={ordemto}>
+        <OrdemServico />
+      </Link>
+/*<button className="btn btn-sm btn-link" onClick={selectOrder(row)}  >
+        <i className="fas fa-pencil-alt"></i>
+      </button>
+*/
     }, []
   );
   //cell?: undefined;
@@ -59,9 +66,12 @@ const Main = () => {
     {
       name: "editar",
       button: true,
-      cell: row => (<button className="btn btn-sm btn-link" onClick={selectOrder(row)}  >
+      cell: row => (<Link to={`/ordemservico/${row.id}` }>
+        
+      <button className="btn btn-sm btn-link"    >
         <i className="fas fa-pencil-alt"></i>
-      </button>),
+      </button>
+      </Link>),
     }
   ];
 
@@ -77,12 +87,12 @@ const Main = () => {
 
       console.log(dados);
       dados.forEach(el => {
-var data1=new Date(el.dataAbertura);
-var data2=new Date(el.dataProgramada);
+        var data1 = new Date(el.dataAbertura);
+        var data2 = new Date(el.dataProgramada);
         el.dataAbertura = formatDate(data1);
         el.dataProgramada = formatDate(data2);
       });
-     
+
       console.log(dados);
 
       setordens(dados);

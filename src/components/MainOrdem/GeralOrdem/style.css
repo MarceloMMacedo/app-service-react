@@ -1,3 +1,16 @@
 .cardh {
     height: 250px;
 }
+.alturadate{
+    height: 22px;
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+    width: 230px;
+}
+.alturadate1{
+    margin-top: 0;
+    padding: 0 !important;
+    height: 35px !important; 
+    
+}

@@ -21,7 +21,7 @@ export type Ordem = {
   tecnico?: SampleDto,
   garantia?: string,
   itensInsOrdemDtos?: ItensInsOrdemDtos[],
-  setorentrega?: string, 
+  setorentrega?: string,
   /**
    * 
    * Aberto Concluido Aguardandoproduto
@@ -35,7 +35,7 @@ export type Ordem = {
   totalItensMaoObra?: number,
   totalItensMaterial?: number,
   total?: number,
-  origem?:string,
+  origem?: string,
 }
 export function newOrdem(data) {
   const ordem = {
@@ -47,10 +47,11 @@ export function newOrdem(data) {
     canal: "TELEFONE",
     cliente: { nome: "" },
     dataAbertura: new Date(),
-    dataProgramada: data,
+    dataProgramada: data, 
+    dataConclusao: data,
     vendedor: { nome: "" },
     equipamento: {} as EquipamentoCliente,
-    tecnico: {id:1},
+    tecnico: { id: 1 },
     itensInsOrdemDtos: [] as ItensInsOrdemDtos[],
     setorentrega: "",
     total: 0,

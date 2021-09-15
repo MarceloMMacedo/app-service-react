@@ -5,14 +5,14 @@ import { AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useForm } from 'react-hook-form';
-import { EquipamentoCliente, newEquipamentoCliente } from '../../../types/pessoa/equipamentocliente';
-import { requestBackend } from '../../../util/requests';
+import { EquipamentoCliente, newEquipamentoCliente } from '../../types/pessoa/equipamentocliente';
+import { requestBackend } from '../../util/requests';
 import { Select } from 'antd';
 
 
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import Modal from 'antd/lib/modal/Modal'; 
-import { SampleDto } from '../../../types/sampledto'; 
+import { SampleDto } from '../../types/sampledto'; 
 
 const columns = [
   

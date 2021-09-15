@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const formatPrice = (price: number) => {
 
     const params = {maximumFractionDigits: 2, minimumFractionDigits: 2};
@@ -5,7 +7,7 @@ export const formatPrice = (price: number) => {
 }
 export const formatDate = (data: Date) => {
     const paramsdata = { year: "numeric",    month: "long",    day: "2-digit"};
-    return new Intl.DateTimeFormat('pt-BR').format(data);
+    return moment(data).format('DD/MM/YYYY h:mm:ss a');// new Intl.DateTimeFormat('pt-BR').format(data);
 }
 export const mask = (v: string) => {
     v = v.replace(/\D/g, "")

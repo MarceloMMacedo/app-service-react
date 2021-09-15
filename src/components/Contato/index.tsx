@@ -23,7 +23,7 @@ const FormContato = ({ contato, register,
             <input
               className="form-control form-control-sm"
               type="text"
-              id="telefone"
+              id="contato"
               {...register("contato.contato", {
                 required: true,
               })}
@@ -37,7 +37,7 @@ const FormContato = ({ contato, register,
               className="form-control form-control-sm"
               type="text"
               id="@Tag"
-              mask="(99)9999-9999"
+              mask="(99)9 9999-9999"
               {...register("contato.telefonecontato", {
                 
               })}

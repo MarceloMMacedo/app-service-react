@@ -2,18 +2,20 @@
 import { Steps, Button, message, notification, Divider, DatePicker } from 'antd';
 import { AxiosRequestConfig } from 'axios';
 import moment from 'moment';
+import 'moment/locale/pt-br';
+import locale from 'antd/es/date-picker/locale/pt_BR';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { newOrdem, Ordem } from '../../../types/ordem/ordem';
 import { SampleDto } from '../../../types/sampledto';
 import { formatDate } from '../../../util/formatters';
-import { requestBackend } from '../../../util/requests'; 
+import { requestBackend } from '../../../util/requests';
 import ContatoClienteOrdem from '../ContatoClienteOrdem';
-import EquipamentoOrdem from '../EquipamentoOrdem'; 
+import EquipamentoOrdem from '../../EquipamentoOrdem';
 
 import PassoOneCliente from '../PassoOneCliente';
 import ResumoFinalOrdem from '../ResumoFinalOrdem';
-import "./style.css" 
+import "./style.css"
 import { useHistory } from 'react-router';
 
 const { RangePicker } = DatePicker;
@@ -34,13 +36,13 @@ const NewOrdemServico = () => {
   const [ordem, setordem] = useState<Ordem>(newOrdem(data));
   const [next1, setnext1] = useState(false);
   const [next2, setnext2] = useState(false);
-  const [next3, setnext3] = useState(false); 
+  const [next3, setnext3] = useState(false);
 
 
   const {
     register, handleSubmit, formState: { errors, isSubmitting, isDirty, isValid }, setValue, getValues, } = useForm();
 
-    const history = useHistory();
+  const history = useHistory();
 
 
 
@@ -174,16 +176,16 @@ const NewOrdemServico = () => {
                 </select>
               </div>
             </div>
- 
+
             <div className="col-lg-6">
               <div className="form-group">
                 <label className="form-label  ">Data</label>
-                <RangePicker   className="form-control form-control-sm col-lg-12" 
-                  defaultValue={[moment(formatDate(ordem.dataAbertura), "DD/MM/YYYY HH:mm:ss a"), moment(formatDate(ordem.dataProgramada), "DD/MM/YYYY  HH:mm:ss a")]} format={"DD/MM/YYYY  HH:mm:ss a" }
+                <RangePicker className="form-control form-control-sm col-lg-12"
+                  defaultValue={[moment(formatDate(ordem.dataAbertura), "DD/MM/YYYY HH:mm:ss a"), moment(formatDate(ordem.dataProgramada), "DD/MM/YYYY  HH:mm:ss a")]} format={"DD/MM/YYYY  HH:mm:ss a"}
                   onChange={(value) => {
                     setValue("dataAbertura", value[0].toDate());
                     setValue("dataProgramada", value[1].toDate())
-                  }}  showTime/>
+                  }} showTime />
 
 
               </div>
@@ -219,11 +221,11 @@ const NewOrdemServico = () => {
           let params: AxiosRequestConfig = {
             method: "PUT",
             url: `ordemservicos/newobj`,
-            data:ordem
+            data: ordem
           };
           requestBackend(params).then((rest) => {
             message.success('Ordem de Serviço criado com sucesso');
-            history.push(`/ordemservico/${""+rest.data}`)
+            history.push(`/ordemservico/${"" + rest.data}`)
           })
           /*let params: AxiosRequestConfig = {
             method: "POST",
@@ -255,7 +257,7 @@ const NewOrdemServico = () => {
 
   };
   return (
-    <> 
+    <>
       <div className="  container mt-3  ">
         <div className="card">
           <Steps current={current} className="mt-2 p-2">
