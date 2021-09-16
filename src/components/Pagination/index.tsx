@@ -9,7 +9,7 @@ type Props = {
   onChange?: (pageNumber: number) => void;
 }
 
-const Pagination = ( { forcePage, pageCount, range, onChange } : Props) => {
+const Paginationn = ( { forcePage, pageCount, range, onChange } : Props) => {
   return (
     <ReactPaginate
       forcePage={forcePage}
@@ -32,4 +32,4 @@ const Pagination = ( { forcePage, pageCount, range, onChange } : Props) => {
   );
 };
 
-export default Pagination;
+export default Paginationn;
